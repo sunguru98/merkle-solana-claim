@@ -1,0 +1,6 @@
+node_modules
+src/keypairs
+data.json
+wlHash.json
+distributor.json
+mintList.json
