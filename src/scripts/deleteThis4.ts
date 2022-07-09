@@ -21,10 +21,6 @@ import {
 import BN from 'bn.js';
 
 const config = {
-  MONGO_URL:
-    process.env.NODE_ENV === 'development'
-      ? 'mongodb://localhost:27017/dog?retryWrites=true&w=majority'
-      : 'mongodb+srv://t3d:18031974@cluster0.eyzjt.mongodb.net/dog?retryWrites=true&w=majority',
   APP_PORT: 3000,
   allowIpList: [],
   RPC_URL:
