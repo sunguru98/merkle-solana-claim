@@ -1,5 +1,5 @@
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import mintList from '../json/mintList.json';
+import mintList from '../json/doge-dev-track-list.json';
 
 import constants from '../constants';
 import {
@@ -18,6 +18,8 @@ import { ASSOCIATED_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/toke
       21, 134, 45, 110, 172, 196, 76, 115, 251, 220, 12, 189, 62, 113,
     ])
   );
+
+  console.log(`Sender: ${senderKeypair.publicKey.toString()}`);
 
   const { CONNECTION } = constants;
   const instructionsPerTx = 5;
@@ -101,8 +103,8 @@ import { ASSOCIATED_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/toke
       senderKeypair,
     ]);
 
-    await CONNECTION.confirmTransaction(txHash);
+    await CONNECTION.confirmTransaction(txHash, 'singleGossip');
 
     console.log(`Batch ${batch} complete. Tx Hash: ${txHash}`);
   }
-})(20, new PublicKey('AjJbyoQSznDWjXjz3ZRBGw7v7kWUsspjAozWnsZ2PkwT'));
+})(10, new PublicKey('5oo4yCsLFpiW5tDVUVczL9b7kZuoytmdTzxmXs1W29EC'));

@@ -26,7 +26,7 @@ import constants from '../constants';
       DEMO_URI: URI,
       TO_WALLET,
     } = constants;
-    const editions = Array.from({ length: editionLength }, (_, i) => i + 3054);
+    const editions = Array.from({ length: editionLength }, (_, i) => i + 1);
 
     console.log(`Fee payer ${FEE_PAYER_KEYPAIR.publicKey.toString()}`);
 
@@ -50,7 +50,9 @@ import constants from '../constants';
         FEE_PAYER_KEYPAIR.publicKey
       );
 
-      const uri = URI + `${edition}.json`;
+      // const uri = URI + `${edition}.json`;
+      const uri =
+        'https://arweave.net/Tut5IiQntC0ppZsFAEvRYGIolzNTxDuUMrOLp_P5VMc';
 
       const metadataPDA = await Metadata.getPDA(mintKeypair.publicKey);
       const masterEditionPDA = await MasterEdition.getPDA(
@@ -67,8 +69,10 @@ import constants from '../constants';
           }),
         ],
         sellerFeeBasisPoints: 600,
-        name: `Genesis Doge ${edition}`,
-        symbol: 'GD',
+        name: `Genesis Track #${'0'.repeat(
+          editionLength.toString().length - edition.toString().length
+        )}${edition}`,
+        symbol: 'GT',
         uri,
       });
 
@@ -83,7 +87,7 @@ import constants from '../constants';
           mintAuthority: FEE_PAYER_KEYPAIR.publicKey,
           updateAuthority: FEE_PAYER_KEYPAIR.publicKey,
         }
-      );
+      ).instructions;
 
       const createMasterEditionIx = new CreateMasterEditionV3(
         {
@@ -97,7 +101,7 @@ import constants from '../constants';
           updateAuthority: FEE_PAYER_KEYPAIR.publicKey,
           maxSupply: new BN(0),
         }
-      );
+      ).instructions;
 
       const tokenAddress = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -133,7 +137,7 @@ import constants from '../constants';
           updateAuthority: FEE_PAYER_KEYPAIR.publicKey,
           primarySaleHappened: true,
         }
-      );
+      ).instructions;
 
       const tx = new Transaction();
       tx.add(
@@ -141,9 +145,9 @@ import constants from '../constants';
         initMintIx,
         createTokenIx,
         mintTokenIx,
-        createMetadataIx,
-        createMasterEditionIx,
-        updateMetadataIx
+        ...createMetadataIx,
+        ...createMasterEditionIx,
+        ...updateMetadataIx
       );
 
       if (TO_WALLET) {
@@ -179,8 +183,7 @@ import constants from '../constants';
         FEE_PAYER_KEYPAIR,
         mintKeypair,
       ]);
-      await CONNECTION.confirmTransaction(txHash);
-
+      await CONNECTION.confirmTransaction(txHash, 'singleGossip');
       console.log(`Minted Edition ${edition}. Tx Hash ${txHash}`);
 
       const mintList = readJSONSync(`${__dirname}/../json/mintList.json`, {
@@ -194,4 +197,4 @@ import constants from '../constants';
   } catch (err) {
     console.error(err);
   }
-})(946);
+})(333);

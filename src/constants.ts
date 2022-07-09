@@ -11,12 +11,15 @@ export default {
     '7XTNU9yHkRXtNqNsMWa6jcc9iyNWstmqESokCJV1SCqZ'
   ),
   AIRDROP_DATA: data,
-  CONNECTION: new Connection(clusterApiUrl('devnet'), {
-    confirmTransactionInitialTimeout: 120 * 1000,
-    commitment: 'confirmed',
-  }),
+  CONNECTION: new Connection(
+    // 'https://lively-white-violet.solana-devnet.quiknode.pro/41827280a5f3583db30c8c075a8338f0bd77cf6c/'
+    'https://misty-dry-voice.solana-mainnet.quiknode.pro/8e1104744dfc354caa0cd1ff419c9325d70242f6/'
+  ),
   FEE_PAYER_KEYPAIR: Keypair.fromSecretKey(
     Uint8Array.from(readJSONSync(`${__dirname}/keypairs/feePayer.json`))
+  ),
+  NEW_FEE_PAYER_KEYPAIR: Keypair.fromSecretKey(
+    Uint8Array.from(readJSONSync(`${__dirname}/keypairs/newFeePayer.json`))
   ),
   CLAIMER_KEYPAIR: Keypair.fromSecretKey(
     Uint8Array.from(readJSONSync(`${__dirname}/keypairs/claimer.json`))
